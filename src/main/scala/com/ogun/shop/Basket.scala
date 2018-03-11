@@ -22,7 +22,33 @@ object Basket {
   }
 
   def processItems(items : List[Item]) : BigDecimal= {
-    items.foldRight(BigDecimal("0"))((i, j) => j.+(i.price.*(i.count)))
+
+    val ZERO = BigDecimal("0")
+
+    def processApples(apples : Item) : BigDecimal = {
+      apples.count match {
+        case z if z <= 0 => ZERO
+        case x if x > 1 => apples.price.+(processApples(apples.copy(count = apples.count-2)))
+        case 1 => apples.price
+      }
+    }
+
+    def processOranges(oranges : Item) : BigDecimal = {
+      oranges.count match {
+        case z if z <= 0 => ZERO
+        case y if y > 2 => oranges.price.*(2).+(processOranges(oranges.copy(count = oranges.count - 3)))
+        case x => oranges.price.*(x).+(processOranges(oranges.copy(count = oranges.count - x)))
+      }
+    }
+
+    items match {
+      case Nil => ZERO
+      case head :: tail => head.name match {
+        case "Apple" => processApples(head).+(processItems(tail))
+        case "Orange" => processOranges(head).+(processItems(tail))
+        case _ => processItems(tail)
+      }
+    }
   }
 }
 

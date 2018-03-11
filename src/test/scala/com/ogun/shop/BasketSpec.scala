@@ -32,8 +32,8 @@ class BasketSpec extends FeatureSpec with GivenWhenThen with Matchers {
     When("I add an apple")
     items ::= Basket.createItem("Apple",2)
 
-    Then("The till should calculate a total of 1.2")
-    Basket.processItems(items) should be(1.2)
+    Then("The till should calculate a total of 0.6")
+    Basket.processItems(items) should be(0.6)
   }
 
   scenario("1 apple, 1 orange in basket") {
@@ -66,7 +66,7 @@ class BasketSpec extends FeatureSpec with GivenWhenThen with Matchers {
     When("I add an apple and orange")
     items ::= Basket.createItem("Orange",3)
 
-    Then("The till should calculate a total of 0.75")
-    Basket.processItems(items) should be(0.75)
+    Then("The till should calculate a total of 0.5")
+    Basket.processItems(items) should be(0.5)
   }
 }
